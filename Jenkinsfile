@@ -186,9 +186,12 @@ pipeline {
     }
     
     post {
-        success {
-            echo '✅ Pipeline completed successfully!'
-            script {
+    success {
+        echo '✅ Pipeline completed successfully!'
+        script {
+            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                               credentialsId: 'aws-credentials', 
+                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                 sh """
                     echo "=== DEPLOYMENT SUMMARY ==="
                     echo "Frontend Image: ${FRONTEND_REPO}:${IMAGE_TAG}"
@@ -206,9 +209,13 @@ pipeline {
                 """
             }
         }
-        failure {
-            echo '❌ Pipeline failed!'
-            script {
+    }
+    failure {
+        echo '❌ Pipeline failed!'
+        script {
+            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                               credentialsId: 'aws-credentials', 
+                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                 sh """
                     echo "=== DEBUG INFO ==="
                     kubectl get pods
@@ -216,9 +223,10 @@ pipeline {
                 """
             }
         }
-        always {
-            echo '🧹 Cleaning up...'
-            sh 'docker system prune -f || true'
-        }
+    }
+    always {
+        echo '🧹 Cleaning up...'
+        sh 'docker system prune -f || true'
+    }
     }
 }
