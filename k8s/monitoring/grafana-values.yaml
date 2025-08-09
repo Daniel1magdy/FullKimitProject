@@ -1,0 +1,79 @@
+# k8s/monitoring/grafana-values.yaml
+service:
+  type: LoadBalancer
+  port: 3000
+
+# Option 1: Disable persistence (recommended for testing)
+persistence:
+  enabled: false
+
+# Option 2: If you want persistence, use the correct AWS EBS storage class
+# persistence:
+#   enabled: true
+#   size: 10Gi
+#   storageClassName: gp2  # Use gp2 instead of gp3, or check available storage classes
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "300m"
+
+# Default admin credentials
+adminUser: admin
+adminPassword: admin123
+
+# Data sources configuration
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server:80
+        access: proxy
+        isDefault: true
+
+# Dashboard providers
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+# Pre-configured dashboards
+dashboards:
+  default:
+    kubernetes-cluster:
+      gnetId: 3119
+      revision: 2
+      datasource: Prometheus
+    kubernetes-pods:
+      gnetId: 6417
+      revision: 1
+      datasource: Prometheus
+    node-exporter:
+      gnetId: 1860
+      revision: 27
+      datasource: Prometheus
+
+# Grafana configuration
+grafana.ini:
+  server:
+    root_url: "http://localhost:3000/"
+  users:
+    allow_sign_up: false
+  auth.anonymous:
+    enabled: true
+    org_role: Viewer
+  security:
+    allow_embedding: true
