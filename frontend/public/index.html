@@ -75,7 +75,7 @@
     <script>
         async function fetchMessage() {
             try {
-                const response = await fetch('http://backend-service:8080/api/message');
+                const response = await fetch('/api/message');
                 const data = await response.json();
                 document.getElementById('message').innerHTML = 
                     `<strong>Backend Response:</strong> ${data.message}`;
