@@ -39,6 +39,14 @@ It also integrates **Prometheus** and **Grafana** to provide observability into 
 
 ---
 
+## 🔹 Architecture Diagram  
+ 
+
+![Architecture Diagram](./diagram/devops_eks_diagram.jpg)  
+
+
+---
+
 ## 🔹 Project Outcomes  
 
 - ✅ End-to-end automated containerized app deployment to **AWS EKS**.  
