@@ -1,4 +1,4 @@
-# 🚀 DevOps Project: Containerized Apps on AWS EKS with Jenkins, Terraform, Prometheus & Grafana  
+# 🚀 Containerized Apps on AWS EKS with Jenkins, Terraform, Prometheus & Grafana  
 
 This project demonstrates a **complete DevOps pipeline** for deploying containerized applications on **Amazon EKS** using **Infrastructure as Code (Terraform)** and **Jenkins** for CI/CD automation.  
 It also integrates **Prometheus** and **Grafana** to provide observability into system performance and reliability.  
